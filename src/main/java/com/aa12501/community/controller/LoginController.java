@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.UUID;
 
 @Controller
@@ -59,7 +60,13 @@ public class LoginController {
         loginService.updateUserState(userDTO);
         request.getSession().setAttribute("user", userDTO);
         response.addCookie(new Cookie("token", userDTO.getToken()));
-        return "redirect:/";
+//        return "redirect:/";
+        try {
+            response.sendRedirect("/");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
