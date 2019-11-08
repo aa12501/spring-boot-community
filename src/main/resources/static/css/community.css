@@ -1,9 +1,19 @@
+html,body{
+    height: 90%;
+}
 body{
     margin-top: 80px;
-    background-color: #efefef;
+    background-color: #ff8c00;
 }
 
 .main{
+    height: 100%;
     background-color: white;
     margin: 30px;
+}
+
+.login{
+    padding-left: 400px;
+    padding-right: 400px;
+    padding-top: 20px;
 }

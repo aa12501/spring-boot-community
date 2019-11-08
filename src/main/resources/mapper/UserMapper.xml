@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aa12501.community.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.aa12501.community.entities.dto.UserDTO">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="account_type" jdbcType="INTEGER" property="accountType"/>
+        <result column="account_id" jdbcType="VARCHAR" property="accountId"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="token" jdbcType="VARCHAR" property="token"/>
+        <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="BIGINT" property="gmtModified"/>
+        <result column="gmt_astLogin" jdbcType="BIGINT" property="gmtLastLogin"/>
+        <result column="avatarUrl" jdbcType="VARCHAR" property="avatarUrl"/>
+    </resultMap>
+
+    <select id="selectSelective" parameterType="com.aa12501.community.entities.dto.UserDTO" resultMap="BaseResultMap">
+        select * from t_user where 1=1
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+        <if test="email != null">
+            and email = #{email}
+        </if>
+        <if test="accountType != null">
+            and account_type = #{accountType}
+        </if>
+        <if test="accountId != null">
+            and account_id = #{accountId}
+        </if>
+        <if test="token != null">
+            and token = #{token}
+        </if>
+
+
+    </select>
+
+    <insert id="insertSelective" parameterType="com.aa12501.community.entities.dto.UserDTO">
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="accountType != null">
+                account_type,
+            </if>
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="token != null">
+                token,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="gmtLastLogin != null">
+                gmt_last_login,
+            </if>
+            <if test="avatarUrl != null">
+                avatar_url,
+            </if>
+        </trim>
+        <trim prefix=" values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="accountType != null">
+                #{accountType},
+            </if>
+            <if test="accountId != null">
+                #{accountId},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="token != null">
+                #{token},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified},
+            </if>
+            <if test="gmtLastLogin != null">
+                #{gmtLastLogin},
+            </if>
+            <if test="avatarUrl != null">
+                #{avatarUrl},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateSelectiveByPrimaryKey" parameterType="com.aa12501.community.entities.dto.UserDTO">
+        update t_user
+        <trim prefix="set" suffixOverrides=",">
+            user_id=#{userId},
+            <if test="email != null">
+                email=#{email},
+            </if>
+            <if test="accountType != null">
+                account_type=#{accountType},
+            </if>
+            <if test="accountId != null">
+                account_id=#{accountId},
+            </if>
+            <if test="password != null">
+                password=#{password},
+            </if>
+            <if test="name != null">
+                name=#{name},
+            </if>
+            <if test="token != null">
+                token=#{token},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create=#{gmtCreate},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified=#{gmtModified},
+            </if>
+            <if test="gmtLastLogin != null">
+                gmt_last_login=#{gmtLastLogin},
+            </if>
+            <if test="avatarUrl != null">
+                avatar_url=#{avatarUrl},
+            </if>
+        </trim>
+        where user_id=#{userId}
+    </update>
+
+    <delete id="deleteSelectiveByPrimaryKey" parameterType="com.aa12501.community.entities.dto.UserDTO">
+        delete from t_user
+        where user_id=#{userId}
+    </delete>
+
+</mapper>
