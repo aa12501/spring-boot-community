@@ -15,25 +15,90 @@
         <result column="avatarUrl" jdbcType="VARCHAR" property="avatarUrl"/>
     </resultMap>
 
+    <resultMap id="WithoutPwdBaseResultMap" type="com.aa12501.community.entities.dto.UserDTO">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="account_type" jdbcType="INTEGER" property="accountType"/>
+        <result column="account_id" jdbcType="VARCHAR" property="accountId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="token" jdbcType="VARCHAR" property="token"/>
+        <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="BIGINT" property="gmtModified"/>
+        <result column="gmt_astLogin" jdbcType="BIGINT" property="gmtLastLogin"/>
+        <result column="avatarUrl" jdbcType="VARCHAR" property="avatarUrl"/>
+    </resultMap>
+
     <select id="selectSelective" parameterType="com.aa12501.community.entities.dto.UserDTO" resultMap="BaseResultMap">
         select * from t_user where 1=1
         <if test="userId != null">
-            and user_id = #{userId}
+            and user_id=#{userId}
         </if>
         <if test="email != null">
-            and email = #{email}
+            and email=#{email}
         </if>
         <if test="accountType != null">
-            and account_type = #{accountType}
+            and account_type=#{accountType}
         </if>
         <if test="accountId != null">
-            and account_id = #{accountId}
+            and account_id=#{accountId}
+        </if>
+        <if test="password != null">
+            and password=#{password}
+        </if>
+        <if test="name != null">
+            and name=#{name}
         </if>
         <if test="token != null">
-            and token = #{token}
+            and token=#{token}
         </if>
-
-
+        <if test="gmtCreate != null">
+            and gmt_create=#{gmtCreate}
+        </if>
+        <if test="gmtModified != null">
+            and gmt_modified=#{gmtModified}
+        </if>
+        <if test="gmtLastLogin != null">
+            and gmt_last_login=#{gmtLastLogin}
+        </if>
+        <if test="avatarUrl != null">
+            and avatar_url=#{avatarUrl}
+        </if>
+    </select>
+    <select id="selectSelectiveWithoutPwd" parameterType="com.aa12501.community.entities.dto.UserDTO" resultMap="WithoutPwdBaseResultMap">
+        select * from t_user where 1=1
+        <if test="userId != null">
+            and user_id=#{userId}
+        </if>
+        <if test="email != null">
+            and email=#{email}
+        </if>
+        <if test="accountType != null">
+            and account_type=#{accountType}
+        </if>
+        <if test="accountId != null">
+            and account_id=#{accountId}
+        </if>
+        <if test="password != null">
+            and password=#{password}
+        </if>
+        <if test="name != null">
+            and name=#{name}
+        </if>
+        <if test="token != null">
+            and token=#{token}
+        </if>
+        <if test="gmtCreate != null">
+            and gmt_create=#{gmtCreate}
+        </if>
+        <if test="gmtModified != null">
+            and gmt_modified=#{gmtModified}
+        </if>
+        <if test="gmtLastLogin != null">
+            and gmt_last_login=#{gmtLastLogin}
+        </if>
+        <if test="avatarUrl != null">
+            and avatar_url=#{avatarUrl}
+        </if>
     </select>
 
     <insert id="insertSelective" parameterType="com.aa12501.community.entities.dto.UserDTO">

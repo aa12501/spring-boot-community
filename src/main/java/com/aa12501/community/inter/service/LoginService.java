@@ -14,7 +14,15 @@ public class LoginService {
         return userMapper.selectSelective(userDTO);
     }
 
+    public UserDTO selectWithoutPwd(UserDTO userDTO){
+        return userMapper.selectSelectiveWithoutPwd(userDTO);
+    }
+
     public void create(UserDTO userDTO){
         userMapper.insertSelective(userDTO);
+    }
+
+    public void updateUserState(UserDTO userDTO) {
+        userMapper.updateSelectiveByPrimaryKey(userDTO);
     }
 }

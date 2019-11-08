@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
+
 @Controller
 public class LoginController {
 
@@ -21,9 +26,39 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String doLogin(@RequestParam("userId") Integer userId,
-                          @RequestParam("userPassword") String password) {
+    public String doLogin(@RequestParam(value = "userId", required = false) Integer userId,
+                          @RequestParam(value = "userPassword", required = false) String password,
+                          Model model,
+                          HttpServletResponse response,
+                          HttpServletRequest request) {
+        if(userId == null){
+            String error = "账号未填写！";
+            model.addAttribute("error", error);
+            return "login";
+        }
+        if(password.trim().equals("")){
+            String error = "密码未填写！";
+            model.addAttribute("error", error);
+            model.addAttribute("userId", userId);
+            return "login";
+        }
 
+        UserDTO checkUser = new UserDTO();
+        checkUser.setUserId(userId);
+        checkUser.setPassword(password);
+        UserDTO userDTO = loginService.selectWithoutPwd(checkUser);
+        if(userDTO == null){
+            String error = "账号或密码错误！";
+            model.addAttribute("error", error);
+            model.addAttribute("userId", userId);
+            return "login";
+        }
+
+        userDTO.setToken(UUID.randomUUID().toString());
+        userDTO.setGmtLastLogin(System.currentTimeMillis());
+        loginService.updateUserState(userDTO);
+        request.getSession().setAttribute("user", userDTO);
+        response.addCookie(new Cookie("token", userDTO.getToken()));
         return "redirect:/";
     }
 
