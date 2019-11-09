@@ -20,22 +20,6 @@ public class IndexController {
     @RequestMapping("/")
     public String index(HttpServletResponse response,
                         HttpServletRequest request){
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    UserDTO userDTO = new UserDTO();
-                    userDTO.setToken(cookie.getValue());
-                    UserDTO user = loginService.selectWithoutPwd(userDTO);
-                    if (user != null) {
-                        user.setGmtLastLogin(System.currentTimeMillis());
-                        loginService.updateUserState(user);
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
 
         return "index";
     }
