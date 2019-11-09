@@ -18,19 +18,24 @@ public class SessionInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String headerUrl = request.getServletPath();
+        if (!headerUrl.equals("/login")) {
+            request.getSession().setAttribute("headerUrl", headerUrl);
+        }
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
-                    UserDTO userDTO = new UserDTO();
-                    userDTO.setToken(cookie.getValue());
-                    UserDTO user = loginService.selectWithoutPwd(userDTO);
-                    if (user != null) {
-                        user.setGmtLastLogin(System.currentTimeMillis());
-                        loginService.updateUserState(user);
-                        request.getSession().setAttribute("user", user);
+                    String token = cookie.getValue();
+                    if (token != null && !token.trim().equals("")) {
+                        UserDTO userDTO = new UserDTO();
+                        userDTO.setToken(token);
+                        UserDTO user = loginService.selectWithoutPwd(userDTO);
+                        if (user != null) {
+                            request.getSession().setAttribute("user", user);
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         }

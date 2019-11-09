@@ -17,3 +17,15 @@ body{
     padding-right: 400px;
     padding-top: 20px;
 }
+
+.profile .img{
+    float: left;
+    width: 55%;
+}
+.profile .inf{
+    float: right;
+    width: 45%;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+}

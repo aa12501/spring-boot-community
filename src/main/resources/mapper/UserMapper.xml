@@ -11,8 +11,8 @@
         <result column="token" jdbcType="VARCHAR" property="token"/>
         <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate"/>
         <result column="gmt_modified" jdbcType="BIGINT" property="gmtModified"/>
-        <result column="gmt_astLogin" jdbcType="BIGINT" property="gmtLastLogin"/>
-        <result column="avatarUrl" jdbcType="VARCHAR" property="avatarUrl"/>
+        <result column="gmt_last_login" jdbcType="BIGINT" property="gmtLastLogin"/>
+        <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl"/>
     </resultMap>
 
     <resultMap id="WithoutPwdBaseResultMap" type="com.aa12501.community.entities.dto.UserDTO">
@@ -24,8 +24,8 @@
         <result column="token" jdbcType="VARCHAR" property="token"/>
         <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate"/>
         <result column="gmt_modified" jdbcType="BIGINT" property="gmtModified"/>
-        <result column="gmt_astLogin" jdbcType="BIGINT" property="gmtLastLogin"/>
-        <result column="avatarUrl" jdbcType="VARCHAR" property="avatarUrl"/>
+        <result column="gmt_last_login" jdbcType="BIGINT" property="gmtLastLogin"/>
+        <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl"/>
     </resultMap>
 
     <select id="selectSelective" parameterType="com.aa12501.community.entities.dto.UserDTO" resultMap="BaseResultMap">

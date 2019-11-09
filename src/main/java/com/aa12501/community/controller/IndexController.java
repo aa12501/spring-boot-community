@@ -20,7 +20,6 @@ public class IndexController {
     @RequestMapping("/")
     public String index(HttpServletResponse response,
                         HttpServletRequest request){
-
         return "index";
     }
 }

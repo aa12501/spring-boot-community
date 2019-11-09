@@ -22,7 +22,17 @@ public class LoginController {
     private LoginService loginService;
 
     @GetMapping("/login")
-    public String login() {
+    public String login(HttpServletRequest request,
+                        HttpServletResponse response) {
+        UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+        if (user != null) {
+            //用户已存在
+            try {
+                response.sendRedirect("/");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return "login";
     }
 
@@ -32,12 +42,12 @@ public class LoginController {
                           Model model,
                           HttpServletResponse response,
                           HttpServletRequest request) {
-        if(userId == null){
+        if (userId == null) {
             String error = "账号未填写！";
             model.addAttribute("error", error);
             return "login";
         }
-        if(password.trim().equals("")){
+        if (password.trim().equals("")) {
             String error = "密码未填写！";
             model.addAttribute("error", error);
             model.addAttribute("userId", userId);
@@ -48,7 +58,7 @@ public class LoginController {
         checkUser.setUserId(userId);
         checkUser.setPassword(password);
         UserDTO userDTO = loginService.selectWithoutPwd(checkUser);
-        if(userDTO == null){
+        if (userDTO == null) {
             String error = "账号或密码错误！";
             model.addAttribute("error", error);
             model.addAttribute("userId", userId);
@@ -59,12 +69,25 @@ public class LoginController {
         userDTO.setGmtLastLogin(System.currentTimeMillis());
         loginService.updateUserState(userDTO);
         request.getSession().setAttribute("user", userDTO);
-        response.addCookie(new Cookie("token", userDTO.getToken()));
-//        return "redirect:/";
-        try {
-            response.sendRedirect("/");
-        } catch (IOException e) {
-            e.printStackTrace();
+        Cookie cookie = new Cookie("token", userDTO.getToken());
+        cookie.setMaxAge(30 * 60);
+        response.addCookie(cookie);
+
+        String headerUrl = (String) request.getSession().getAttribute("headerUrl");
+        if (headerUrl != null) {
+            //如果有上一个页面
+            try {
+                //重定向回之前页面
+                response.sendRedirect(headerUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                response.sendRedirect("/");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
