@@ -21,14 +21,17 @@ public class SessionInterceptor implements HandlerInterceptor {
         //获取当前页面的url，用来作为登录之后返回的上一个界面
         String headerUrl = request.getServletPath();
         //如果是登录界面，就不管它
-        if (!headerUrl.equals("/login") && !headerUrl.equals("/")) {
+        if (!headerUrl.equals("/login")) {
             request.getSession().setAttribute("headerUrl", headerUrl);
 
             String token = getToken(request, response);
             if (token == null) {
                 //token失效，不存在，则删除session中的user，以免被后续页面读取到
                 request.getSession().removeAttribute("user");
-                response.sendRedirect("/login");
+                //如果不是主页，则跳转到登录页面
+                if (!headerUrl.equals("/")) {
+                    response.sendRedirect("/login");
+                }
             } else {
                 UserDTO checkUser = new UserDTO();
                 checkUser.setToken(token);
@@ -39,8 +42,10 @@ public class SessionInterceptor implements HandlerInterceptor {
                     cookie.setMaxAge(0);
                     response.addCookie(cookie);
                     request.getSession().removeAttribute("user");
-
-                    response.sendRedirect("/login");
+                    //如果不是主页，则跳转到登录页面
+                    if (!headerUrl.equals("/")) {
+                        response.sendRedirect("/login");
+                    }
                 } else {
                     //一切没问题
                     request.getSession().setAttribute("user", user);
