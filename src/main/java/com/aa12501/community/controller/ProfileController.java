@@ -14,15 +14,7 @@ public class ProfileController {
     @GetMapping("/profile")
     public String profile(HttpServletRequest request,
                           HttpServletResponse response){
-        UserDTO user = (UserDTO) request.getSession().getAttribute("user");
 
-        if(user == null){
-            try {
-                response.sendRedirect("/login");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         return "profile";
     }
 }
